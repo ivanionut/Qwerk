@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
-	<title> MyECA </title>
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -19,7 +12,7 @@
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+              <input type="text" placeholder="Username" class="form-control">
             </div>
             <div class="form-group">
               <input type="password" placeholder="Password" class="form-control">
@@ -38,7 +31,7 @@
       </div>
     </div>
 
-    <div class="container">
+<!---     <div class="container">
       <div class="row">
         <div class="col-md-4">
           <h2>Heading</h2>
@@ -47,13 +40,4 @@
           	<cfdump var=#application.user# />
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; MyECA 2014</p>
-      </footer>
-    </div> <!-- /container -->
-</body>
-</html>
+      </div> --->
