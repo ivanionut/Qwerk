@@ -3,26 +3,45 @@ component {
 	this.sessionManagement = true;
 
 	public function onApplicationStart(){
+		query = new Query();
 		application.datasource= 'myeca';
-		application.db = CreateObject('component', 'cfc.Database');
-		application.user = CreateObject('component' ,'cfc.User');
-		application.page = CreateObject('component', 'cfc.Page');
 
+		// get the installation path
+		query.setDatasource(application.datasource);
+		query.addParam(name="option", value="path", cfsqltype="cf_sql_varchar");
+		result = query.execute(sql="
+			SELECT * FROM myeca_options
+			WHERE `option` = :option
+		");
+
+		if(DirectoryExists(result.getResult().value)){
+			application.path = result.getResult().value;
+		} else {
+			onError('Installation path does not exist');
+		}
+		
 		return true;
 	}
 
 	public function onRequestStart(){
-		include 'includes/header.cfm';
+
+		application.db = CreateObject('component', 'cfc.Database');
+		application.user = CreateObject('component' ,'cfc.User');
+		application.page = CreateObject('component', 'cfc.Page');
+
+
+
+		application.page.loadDefaultView();
 		return true;
 	}
 
 	public function onRequestEnd(){
-		include 'includes/footer.cfm';
+		// include 'includes/footer.cfm';
 		return true;
 	}
 
-	public function onError(){
-		writeOutput("ERROR!!!");
+/* 	public function onError(required string message="Uknown error"){
+		writeOutput('<b>Failed:</b>' & message);
 		return true;
-	}
+	} */
 }
