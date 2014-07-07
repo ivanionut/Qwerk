@@ -40,7 +40,7 @@ component {
 		return true;
 	}
 
-/* 	public function onError(required string message="Uknown error"){
+/* 	public function onError(required string message="Unknown error"){
 		writeOutput('<b>Failed:</b>' & message);
 		return true;
 	} */
