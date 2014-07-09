@@ -35,11 +35,10 @@
       <div class="row">
         <div class="col-md-4">
           <h2>Heading</h2>
-<!---             <cfdump var=#application.db# />
-            <br />
-            <cfdump var=#application.user# />
-            <br /> --->
-            <!--- <cfdump var=#application.page.loadDefaultView()# /> --->
+            <cfoutput>
+              #application.page.getView()#
+            </cfoutput>
+            
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
       </div>
