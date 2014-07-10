@@ -12,9 +12,6 @@ component Page{
 			view = url.r;
 			action = url.action;
 
-			/* 
-			* check if .cfc exists 
-			*/
 			if(isObject(directory.checkClassExists(view))){
 
 				controller = directory.checkClassExists(view);
@@ -25,6 +22,8 @@ component Page{
 					for(i = 1; i lte arrayLen(methodList.functions); i++){
 						//call method
 						if(action eq 'view'){
+							// session.page = getMetaData(controller).fullname;
+							writeDump(session);
 							controller.view();
 						}
 					}
@@ -32,11 +31,11 @@ component Page{
 					return 'Action is not defined in controller';
 				}
 			} else {
-				return 'Controller not found';
+				show404();
 			}
-
-			//check if the action exists in the .cfc
-		} 
+		} else{
+			show404();
+		}
 	}
 
 	public void function loadDefaultView(){
@@ -44,7 +43,7 @@ component Page{
 		load('default_home');
 		loadFooter();
 
-		// return true;
+		session.page = 'default';
 	}
 
 	public string function load(required string view="index", struct data = {}){
@@ -73,5 +72,11 @@ component Page{
 		} catch (any e){
 			writeDump("<b>FAILED:</b>" & e);
 		}
+	}
+
+	public function show404(){
+		// call the 404 controller
+		var controller = createObject("component", "404").view();
+		return true;
 	}
 }

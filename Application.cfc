@@ -30,12 +30,16 @@ component {
 		application.page = CreateObject('component', 'cfc.Page');
 
 		application.page.loadDefaultView();
+
 		return true;
 	}
 
 	public function onRequestEnd(){
-		// include 'includes/footer.cfm';
 		return true;
+	}
+
+	public function onSessionStart(){
+		
 	}
 
 /* 	public function onError(required string message="Unknown error"){
