@@ -29,7 +29,8 @@ component {
 		application.user = CreateObject('component' ,'cfc.User');
 		application.page = CreateObject('component', 'cfc.Page');
 
-		application.page.loadDefaultView();
+		
+		// application.page.loadDefaultView();
 
 		return true;
 	}

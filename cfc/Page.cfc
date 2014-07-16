@@ -1,12 +1,16 @@
+/*
+* BASE CONTROLLER
+*/
 component Page{
-	public function getView(){
+	/*
+	* This method reads the URL and identifies which controller and action to use
+	*/
+	public Any function getView(){
 		var view = '';
 		var action = '';
 		var directory = createObject("component", "ClassFinder");
 		var controller = '';
 		var methodList = '';
-
-		writeDump(url);
 
 		if(isDefined("url") && structCount(url) gt 0 && structKeyExists(url, "r") && structKeyExists(url, "action")){
 			view = url.r;
@@ -20,11 +24,11 @@ component Page{
 					methodList = getMetaData(controller);
 
 					for(i = 1; i lte arrayLen(methodList.functions); i++){
-						//call method
-						if(action eq 'view'){
-							// session.page = getMetaData(controller).fullname;
-							writeDump(session);
-							controller.view();
+						viewName = methodList.functions;
+						if(viewName[i].name eq url.action){
+							//call the view
+							controller.method = controller[url.action];
+							controller.method();
 						}
 					}
 				} else {
@@ -49,7 +53,7 @@ component Page{
 	public string function load(required string view="index", struct data = {}){
 		if(view neq 'index'){
 			if(FileExists('#application.path#/views/#view#/index.cfm')){
-				include '../views/#view#/index.cfm';
+				include '/views/#view#/index.cfm';
 			} else{
 				return 'view not found';
 			}
@@ -60,7 +64,7 @@ component Page{
 
 	public void function loadHeader(){
 		try {
-			include '../views/includes/header.cfm';
+			include '/views/includes/header.cfm';
 		} catch (any e){
 			writeDump("<b>FAILED:</b>" & e);
 		}
@@ -68,7 +72,7 @@ component Page{
 
 	public void function loadFooter(){
 		try{
-			include '../views/includes/footer.cfm';
+			include '/views/includes/footer.cfm';
 		} catch (any e){
 			writeDump("<b>FAILED:</b>" & e);
 		}

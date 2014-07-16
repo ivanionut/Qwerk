@@ -36,7 +36,7 @@
         <div class="col-md-4">
           <h2>Heading</h2>
             <cfoutput>
-              #application.page.getView()#
+              <!--- #application.page.getView()# --->
             </cfoutput>
             
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
