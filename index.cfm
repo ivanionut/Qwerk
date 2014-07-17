@@ -1,7 +1,5 @@
 <cfscript>
-	try{
+	if(structKeyExists(url, "r") && structKeyExists(url, "action")){
 		view = application.page.getView();
-		} catch (Any e){
-			writeDump(e);
-		}
+	}
 </cfscript>
