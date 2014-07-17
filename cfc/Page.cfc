@@ -46,14 +46,18 @@ component Page{
 		loadHeader();
 		load('default_home');
 		loadFooter();
-
-		session.page = 'default';
 	}
 
-	public string function load(required string view="index", struct data = {}){
+	public  function load(required string view="index", data = {}){
 		if(view neq 'index'){
 			if(FileExists('#application.path#/views/#view#/index.cfm')){
 				include '/views/#view#/index.cfm';
+				
+				if(isDefined("data")){
+					return { 'data' = data }; 
+				}
+
+				return true;
 			} else{
 				return 'view not found';
 			}
@@ -62,9 +66,13 @@ component Page{
 		}
 	}
 
-	public void function loadHeader(){
+	public function loadHeader(title = ''){
 		try {
 			include '/views/includes/header.cfm';
+
+			if(title neq ''){
+				return{ 'title' = title};
+			}
 		} catch (any e){
 			writeDump("<b>FAILED:</b>" & e);
 		}
