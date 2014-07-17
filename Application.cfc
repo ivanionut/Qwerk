@@ -29,9 +29,10 @@ component {
 		application.user = CreateObject('component' ,'cfc.User');
 		application.page = CreateObject('component', 'cfc.Page');
 
+		if(!structKeyExists(url, "action") && !structKeyExists(url, "r")){
+			application.page.loadDefaultView();
+		}
 		
-		// application.page.loadDefaultView();
-
 		return true;
 	}
 
