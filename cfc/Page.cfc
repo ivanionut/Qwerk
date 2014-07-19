@@ -32,13 +32,16 @@ component Page{
 						}
 					}
 				} else {
-					return 'Action is not defined in controller';
+					show404();
+					return false;
 				}
 			} else {
 				show404();
+				return false;
 			}
 		} else{
 			show404();
+			return false;
 		}
 	}
 
