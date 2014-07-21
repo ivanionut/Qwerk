@@ -3,8 +3,18 @@ component home displayname="Home" extends="Page" {
 		/* display the default view for the home controller
 		* by doing load()
 		 */
+		 var date = now();
+		 var views = arrayNew(1);
+
+		 arrayAppend(views, '_partial');
+		 arrayAppend(views, '_partial1');
+		 arrayAppend(views, '_partial2');
+
 		 loadheader();
-		 load('test_view');
+		 load('test_view'
+		 	, 'index'
+		 	, views
+		 	, date);
 		 loadFooter();
 	}
 
