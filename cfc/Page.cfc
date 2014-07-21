@@ -51,21 +51,40 @@ component Page{
 		loadFooter();
 	}
 
-	public  function load(required string view="index", data = {}){
-		if(view neq 'index'){
-			if(FileExists('#application.path#/views/#view#/index.cfm')){
-				include '/views/#view#/index.cfm';
+	public  function load(required string viewFolder="index", string view="index", array partial = [], data = {}){
+		if(viewFolder neq 'index'){
+			if(FileExists('#application.path#/views/#viewFolder#/#view#.cfm')){
+				include '/views/#viewFolder#/#view#.cfm';
 				
-				if(isDefined("data")){
-					return { 'data' = data }; 
+				if(arrayLen(partial) neq 0){
+					// begin looping through each partial view
+					for(var i = 1; i <= arrayLen(partial); i++){
+						try{
+							include '/views/#viewFolder#/#partial[i]#.cfm';
+						} catch (Any e){
+							WriteDump(e);
+							exit;
+						}
+						
+					}
 				}
 
-				return true;
+				if(isDefined("data")){
+					return { 
+						'data' = data 
+					}; 
+				}
 			} else{
 				return 'view not found';
 			}
 		} else {
 			// return default view
+			include '/views/#viewFolder#/#view#.cfm';
+			if(isDefined("data")){
+				return { 
+					'data' = data 
+				}; 
+			}
 		}
 	}
 
