@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
-	<title> MyECA <cfif title neq ''> | <cfoutput>#title#</cfoutput> </cfif> </title>
+	<title> Qwerk <cfif title neq ''> | <cfoutput>#title#</cfoutput> </cfif> </title>
 </head>
 <body>
     <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -14,7 +14,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/index.cfm">MyECA</a>
+          <a class="navbar-brand" href="/index.cfm">Qwerk</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
