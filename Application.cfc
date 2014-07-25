@@ -25,7 +25,6 @@ component {
 
 	public function onRequestStart(){
 
-		application.model = CreateObject('component', 'cfc.Model');
 		application.user = CreateObject('component' ,'cfc.User');
 		application.page = CreateObject('component', 'cfc.Page');
 		application.url = CreateObject('component', 'cfc.URLParser');
