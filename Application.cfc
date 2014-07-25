@@ -1,5 +1,5 @@
 component {
-	this.name = 'MyECA';
+	this.name = 'Qwerk';
 	this.sessionManagement = true;
 
 	public function onApplicationStart(){
@@ -25,11 +25,13 @@ component {
 
 	public function onRequestStart(){
 
-		application.db = CreateObject('component', 'cfc.Database');
+		application.model = CreateObject('component', 'cfc.Model');
 		application.user = CreateObject('component' ,'cfc.User');
 		application.page = CreateObject('component', 'cfc.Page');
 		application.url = CreateObject('component', 'cfc.URLParser');
 		
+/* 		writeDump(application.model.init('homeModel'));
+		abort; */
 		return true;
 	}
 

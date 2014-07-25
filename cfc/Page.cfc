@@ -1,11 +1,11 @@
 /*
 * BASE CONTROLLER
 */
-component Page{
-	/*
-	* This method reads the URL and identifies which controller and action to use
+component Page hint="Base Page Controller" extends="QwerkActions" implements="QwerkFramework"{
+	/**
+	* @hint "This method reads the URL and identifies which controller and action to use"
 	*/
-	public Any function getView(){
+	public Any function get(){
 		var view = '';
 		var action = '';
 		var directory = createObject("component", "ClassFinder");
@@ -46,7 +46,7 @@ component Page{
 	}
 
 	public void function loadDefaultView(){
-		loadHeader();
+		loadHeader('Home');
 		load('default_home');
 		loadFooter();
 	}

@@ -1,4 +1,4 @@
-component Model hint="This is the base model class" {
+component Model hint="This is the base model class" extends="QwerkActions" implements="QwerkFramework" {
 	property string query;
 	property string table;
 	property string model;
@@ -6,15 +6,15 @@ component Model hint="This is the base model class" {
 	/**
 	* @hint "Constructor"
 	*/
-	public function init(modelName){
-		setTable(modelName);
-		return getModel();
+	public function init(required itemName){
+		setTable(itemName);
+		return get();
 	}
 
 	/**
 	* @description "This method checks the requested model exists and returns an instance of it"
 	*/
-	public function getModel(){
+	public function get(){
 		var directory = createObject('component', 'cfc.ClassFinder');
 		var model = directory.checkClassExists(getTable());
 

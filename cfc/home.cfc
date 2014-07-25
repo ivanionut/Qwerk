@@ -6,11 +6,13 @@ component home displayname="Home" extends="Page" {
 		 var date = now();
 		 var views = arrayNew(1);
 
+		 var model = loadModel('homeModel');
+
 		 arrayAppend(views, '_partial');
 		 arrayAppend(views, '_partial1');
 		 arrayAppend(views, '_partial2');
 
-		 loadheader();
+		 loadheader('Home');
 		 load('test_view'
 		 	, 'index'
 		 	, views

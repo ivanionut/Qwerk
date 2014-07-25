@@ -7,7 +7,7 @@
 
 	switch(view){
 		case true:
-			application.page.getView();
+			application.page.get();
 			break;
 		case 'empty':
 			application.page.loadDefaultView();
