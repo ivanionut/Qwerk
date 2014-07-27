@@ -3,23 +3,32 @@ component {
 	this.sessionManagement = true;
 
 	public function onApplicationStart(){
+
+		var config = {};
+		config.dsn = 'qwerk';
+
 		query = new Query();
-		application.datasource= 'myeca';
 
 		// get the installation path
-		query.setDatasource(application.datasource);
+		query.setDatasource(config.dsn);
 		query.addParam(name="option", value="path", cfsqltype="cf_sql_varchar");
 		result = query.execute(sql="
-			SELECT * FROM myeca_options
+			SELECT * FROM qwerk_options
 			WHERE `option` = :option
 		");
 
 		if(DirectoryExists(result.getResult().value)){
 			application.path = result.getResult().value;
 		} else {
-			onError('Installation path does not exist');
+			//onError('Installation path does not exist');
+
+			/*
+				THIS ERROR NEEDS TO BE HANDLED
+			*/
 		}
-		
+
+		application.singletonFactory = createObject('component', 'cfc.SingletonFactory').init(config);
+		application.db = application.singletonFactory.getSingleton('QDB');
 		return true;
 	}
 
@@ -29,8 +38,6 @@ component {
 		application.page = CreateObject('component', 'cfc.Page');
 		application.url = CreateObject('component', 'cfc.URLParser');
 		
-/* 		writeDump(application.model.init('homeModel'));
-		abort; */
 		return true;
 	}
 
