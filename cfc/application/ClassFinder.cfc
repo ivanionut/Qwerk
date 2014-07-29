@@ -1,10 +1,11 @@
 <cfcomponent name="ClassFinder" displayname="Directory" output="false">
 	<cffunction name="checkClassExists" access="public" hint="Check if a CFC exists">
 		<cfargument name="class" type="string" required="yes">
+		<cfargument name="classPath" type="string">
 
 		<cfset var className = arguments.class & ".cfc" />
 		<cfset classesArray = ArrayNew(1) />
-		<cfset var path = getDirectoryFromPath(getCurrentTemplatePath()) />
+		<cfset var path = application.path & 'cfc/' />
 		<cfset var object = '' />
 
 		<cfif isDefined("className") && len(className)>
@@ -21,7 +22,8 @@
 				</cfloop>
 
 				<cfif not arrayIsEmpty(classesArray) && ArrayContains(classesArray, className)>
-					<cfset object = createObject("component", arguments.class) />
+					<cfset path = arguments.classPath & '.' & arguments.class />
+					<cfset object = request.qwerkfactory.create(path) />
 					<cfreturn object />
 				</cfif>
 				<cfreturn object />

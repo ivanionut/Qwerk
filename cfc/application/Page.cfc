@@ -15,10 +15,12 @@ component Page hint="Base Page Controller" extends="QwerkActions" implements="Qw
 		if(isDefined("url") && structCount(url) gt 0 && structKeyExists(url, "r") && structKeyExists(url, "action")){
 			view = url.r;
 			action = url.action;
+			
+			controller = directory.checkClassExists(view, 'cfc.controllers');
+			
+			if(isObject(controller)){
 
-			if(isObject(directory.checkClassExists(view))){
-
-				controller = directory.checkClassExists(view);
+				
 
 				if(structKeyExists(controller, action)){
 					methodList = getMetaData(controller);

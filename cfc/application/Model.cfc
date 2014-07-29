@@ -16,8 +16,8 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 	* @description "This method checks the requested model exists and returns an instance of it"
 	*/
 	public function get(){
-		var directory = createObject('component', 'cfc.ClassFinder');
-		this.model = directory.checkClassExists(getTable());
+		var directory = createObject('component', 'cfc.application.ClassFinder');
+		this.model = directory.checkClassExists(getTable(), 'cfc.models');
 
 		return (isObject(this.model)) ? this.model : false;
 	}

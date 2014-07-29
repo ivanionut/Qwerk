@@ -17,6 +17,9 @@ component {
 			WHERE `option` = :option
 		");
 
+
+		application.url = CreateObject('component', 'cfc.application.URLParser');
+
 		if(DirectoryExists(result.getResult().value)){
 			application.path = result.getResult().value;
 		} else {
@@ -27,17 +30,18 @@ component {
 			*/
 		}
 
-		application.singletonFactory = createObject('component', 'cfc.SingletonFactory').init(config);
+		application.singletonFactory = createObject('component', 'cfc.application.SingletonFactory').init(config);
 		application.db = application.singletonFactory.getSingleton('QDB');
+		application.db.init(config);
+
 		return true;
 	}
 
 	public function onRequestStart(){
-
-		application.user = CreateObject('component' ,'cfc.User');
-		application.page = CreateObject('component', 'cfc.Page');
-		application.url = CreateObject('component', 'cfc.URLParser');
 		
+		application.page = CreateObject('component', 'cfc.application.Page');
+		request.qwerkfactory = createObject('component', 'QwerkFactory');
+
 		return true;
 	}
 

@@ -1,4 +1,4 @@
-component home displayname="Home" extends="Page" {
+component home displayname="Home" extends="cfc.application.Page" {
 	public function view(){
 		/* display the default view for the home controller
 		* by doing load()

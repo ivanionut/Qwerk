@@ -8,6 +8,6 @@ component QwerkActions extends="Qwerk"{
 	}
 
 	public function getBaseModel(){
-		return CreateObject('component', 'cfc.Model');
+		return CreateObject('component', 'cfc.application.Model');
 	}
 }
