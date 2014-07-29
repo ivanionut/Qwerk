@@ -8,6 +8,7 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 	*/
 	public function init(required itemName){
 		setTable(itemName);
+
 		return get();
 	}
 
@@ -16,9 +17,9 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 	*/
 	public function get(){
 		var directory = createObject('component', 'cfc.ClassFinder');
-		var model = directory.checkClassExists(getTable());
+		this.model = directory.checkClassExists(getTable());
 
-		return (isObject(model)) ? model : false;
+		return (isObject(this.model)) ? this.model : false;
 	}
 
 	/**
@@ -33,5 +34,12 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 	*/
 	public function getTable(){
 		return table;
+	}
+
+	/**
+	* @hint "returns the current model"
+	*/
+	public function getCurrentModel(){
+		return (isDefined("this.model")) ? this.model : false;
 	}
 }

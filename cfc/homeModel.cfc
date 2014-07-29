@@ -1,4 +1,4 @@
-component homeModel {
+component homeModel extends="Model" {
 	public function test(){
 		
 	}
