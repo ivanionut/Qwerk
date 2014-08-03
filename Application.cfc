@@ -13,7 +13,8 @@ component {
 		query.setDatasource(config.dsn);
 		query.addParam(name="option", value="path", cfsqltype="cf_sql_varchar");
 		result = query.execute(sql="
-			SELECT * FROM qwerk_options
+			SELECT * 
+			FROM qwerk_options
 			WHERE `option` = :option
 		");
 
