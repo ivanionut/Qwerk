@@ -32,7 +32,7 @@ component {
 		}
 
 		application.singletonFactory = createObject('component', 'cfc.application.SingletonFactory').init(config);
-		application.db = application.singletonFactory.getSingleton('QDB');
+		application.db = createObject('component', 'cfc.application.QDB');
 		application.db.init(config);
 
 		return true;
