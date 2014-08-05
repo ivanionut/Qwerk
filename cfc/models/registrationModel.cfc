@@ -9,6 +9,9 @@ component registrationModel extends="cfc.application.Model"{
 
 		qdb.setTable('qwerk_users');
 		qdb.select('username, password');
+		qdb.where(
+			{field="id", value="1"}
+		);
 		writeDump(qdb.execute());
 	}
 }
