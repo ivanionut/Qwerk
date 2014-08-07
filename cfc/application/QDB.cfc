@@ -6,8 +6,6 @@ component QDB{
 	property updateColumns;
 	property table;
 	property condition;
-	property update;
-	property insert;
 	property result;
 	property query;
 
@@ -46,6 +44,27 @@ component QDB{
 	public function select(required columnsSelect){
 		this.selectColumns = columnsSelect;
 	}
+
+	/**
+	* @hint "This will build the select query"
+	* @whereClause "This is optional in a query"
+	*/
+	public function buildSelect(){
+		var query = '';
+
+		query = "
+			SELECT #listQualify(this.selectColumns, '`')#
+			FROM #this.table#
+		";
+
+		if(structKeyExists(this, "condition")){
+			query = query & "
+				WHERE #this.condition.field# = #this.condition.value#
+			";
+		}
+
+		return query;
+	}
 	
 	public function setTable(required string tableName){
 		this.table = tableName;
@@ -55,50 +74,53 @@ component QDB{
 		this.condition = cols;
 	}
 
+	public function insert(required columnsInsert){
+		this.insert = columnsInsert;
+	}
+
+	public function buildInsert(){
+		var query = '';
+
+		query = "
+			INSERT INTO #this.table# (#this.insertColumns#)
+			VALUES ()
+		";
+
+		abort;
+		return query;
+	}
+
 	/**
 	* @hint "This builds the query before execution"
 	*/
 	public function execute(){
-		var viewLine = (structKeyExists(this, "selectColumns")) ? this.selectColumns : '';
-		var tableLine = (structKeyExists(this, "table")) ? this.table : '';
-		var conditionLine = (structKeyExists(this, "condition")) ? this.condition : '';
 		var query = '';
 
-		if(viewLine neq ''){
+		if(structKeyExists(this, "selectColumns")){
+
+			query = buildSelect();
+
+		} else if(structKeyExists(this, "insertColumns")){
+
+			query = buildInsert();
+
+		}
+		
+		if(len(query)){
 			this.query = new Query();
 
-			/* Create the select part of the query */
-			query="
-				SELECT #viewLine#
-				FROM #this.table#
-			";
-
-			/* Create the condition part of the query if it's been specified*/
-			if(not structIsEmpty(conditionLine)){
-				query = query & "
-					WHERE #conditionLine.field# = #conditionLine.value#
-				";
-			}
-
 			this.query.setDatasource(this.dsn);
+
 			this.result = this.query.execute(sql = query);
 
-			return this.result;
+			return this.result;	
 		}
 
-		return false;		
+		return false;
 	}
 
 	public function getResult(){
 		return this.result;
-	}
-
-	/**
-	* @hint "Insert to Database"
-	* @columns "The columns that will be affected"
-	*/
-	public function insert(required columns){
-		this.insertColumns = columns;
 	}
 
 	/**
