@@ -32,8 +32,6 @@ component {
 		}
 
 		application.singletonFactory = createObject('component', 'cfc.application.SingletonFactory').init(config);
-		application.db = createObject('component', 'cfc.application.QDB');
-		application.db.init(config);
 
 		return true;
 	}

@@ -59,7 +59,7 @@ component QDB{
 
 		if(structKeyExists(this, "condition")){
 			query = query & "
-				WHERE #this.condition.field# = #this.condition.value#
+				WHERE #listQualify(this.condition.field, '`')# = '#this.condition.value#'
 			";
 		}
 
@@ -74,19 +74,21 @@ component QDB{
 		this.condition = cols;
 	}
 
-	public function insert(required columnsInsert){
-		this.insert = columnsInsert;
+	public function insertRow(required struct columnsInsert, struct form = {}){
+		this.insertColumns = columnsInsert;
+		this.insertColumns.form = arguments.form;
 	}
 
 	public function buildInsert(){
 		var query = '';
 
+		// writeDump(this.insertColumns);
+
 		query = "
-			INSERT INTO #this.table# (#this.insertColumns#)
-			VALUES ()
+			INSERT INTO #this.table# (#listQualify(this.insertColumns.cols, '`')#)
+			VALUES (#listQualify(this.insertColumns.values, '"')#)
 		";
 
-		abort;
 		return query;
 	}
 
