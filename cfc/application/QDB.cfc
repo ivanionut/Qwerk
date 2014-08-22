@@ -4,6 +4,7 @@ component QDB{
 	property selectColumns;
 	property insertColumns;
 	property updateColumns;
+	property deleteColumns;
 	property table;
 	property condition;
 	property result;
@@ -92,6 +93,19 @@ component QDB{
 		return query;
 	}
 
+	public function delete(required struct deleteColumns){
+		this.deleteColumns = arguments.deleteColumns;
+	}
+
+	public function buildDelete(){
+		var query = '';
+
+		query = 'DELETE FROM #this.table#
+				WHERE #this.deleteColumns.column# = #this.deleteColumns.value#';
+
+		return query;
+	}
+
 	/**
 	* @hint "This builds the query before execution"
 	*/
@@ -106,6 +120,8 @@ component QDB{
 
 			query = buildInsert();
 
+		} else if(structKeyExists(this, "deleteColumns")){
+			query = buildDelete();
 		}
 		
 		if(len(query)){
