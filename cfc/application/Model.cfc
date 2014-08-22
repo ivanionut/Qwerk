@@ -1,15 +1,16 @@
 component Model hint="This is the base model class" extends="QwerkActions" implements="QwerkFramework" {
-	property string query;
-	property string table;
-	property string model;
+	property query;
+	property table;
+	property tableColumns;
+	property columnTypes;
+	property model;
 
 	/**
 	* @hint "Constructor"
 	*/
 	public function init(required itemName){
-		setTable(itemName);
-
-		return get();
+		setModel(itemName);
+		return getCurrentModel();
 	}
 
 	/**
@@ -17,7 +18,7 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 	*/
 	public function get(){
 		var directory = createObject('component', 'cfc.application.ClassFinder');
-		this.model = directory.checkClassExists(getTable(), 'cfc.models');
+		this.model = directory.checkClassExists(this.model, 'cfc.models');
 
 		return (isObject(this.model)) ? this.model : false;
 	}
@@ -36,10 +37,14 @@ component Model hint="This is the base model class" extends="QwerkActions" imple
 		return table;
 	}
 
+	public function setModel(required string modelName){
+		this.model = arguments.modelName;
+	}
+
 	/**
 	* @hint "returns the current model"
 	*/
 	public function getCurrentModel(){
-		return (isDefined("this.model")) ? this.model : false;
+		return (structKeyExists(this, "model")) ? get() : false;
 	}
 }

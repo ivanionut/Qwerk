@@ -19,7 +19,12 @@ component registrationModel extends="cfc.application.Model"{
 		result = qdb.execute().getResult();
 
 		if(result.recordcount neq 1){
-			insertRow(form);
+			writeDump(result)
+			abort;
+		}
+
+		if(structKeyExists(url, "column") && structKeyExists(url, "value")){
+			removeRecord();
 		}
 	}
 
@@ -34,6 +39,19 @@ component registrationModel extends="cfc.application.Model"{
 				#arguments.regForm.password#,
 				#arguments.regForm.email#"
 			}
+		);
+
+		qdb.execute();
+	}
+
+	public function removeRecord(){
+		var qdb = request.qwerkfactory.newQDB();
+		
+		qdb.init(applicationConfig());
+		qdb.setTable('qwerk_users');
+
+		qdb.delete(
+			{column="id", value="3"}
 		);
 
 		qdb.execute();
