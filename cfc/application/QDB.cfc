@@ -1,4 +1,4 @@
-component QDB{
+component QDB extends="cfc.application.QwerkBase"{
 
 	property dsn;
 	property selectColumns;
@@ -14,9 +14,10 @@ component QDB{
 	* @hint "Constructor"
 	* @config "Config passed the database abstraction layer"
 	*/
-	public function init(required struct config){
+	public function init(){
+		var set = applicationConfig();
 		
-		var set = (structKeyExists(config, "dsn")) ? setDatasource(config.dsn) : 0;
+		(structKeyExists(set, "dsn")) ? setDatasource(set.dsn) : 0;
 
 		// return (set) ? true : false;
 	}
@@ -106,6 +107,17 @@ component QDB{
 		return query;
 	}
 
+	public function buildUpdate(){
+		var query = '';
+
+		query = 'UPDATE #this.table#
+				 SET #listQualify(this.updateColumns.column, '`')# = #listQualify(this.updateColumns.value, '"')#
+				 WHERE #listQualify(this.updateColumns.conditionColumn, '`')# = #listQualify(this.updateColumns.conditionValue, '"')#
+				';
+
+		return query;
+	}
+
 	/**
 	* @hint "This builds the query before execution"
 	*/
@@ -121,7 +133,11 @@ component QDB{
 			query = buildInsert();
 
 		} else if(structKeyExists(this, "deleteColumns")){
+
 			query = buildDelete();
+			
+		} else if(structKeyExists(this, "updateColumns")){
+			query = buildUpdate();
 		}
 		
 		if(len(query)){
