@@ -1,7 +1,9 @@
 component QwerkBase{
 	public function applicationConfig(){
-		var config = {};
-		config.dsn = 'qwerk';
+		var config = {
+			dsn = 'qwerk'
+		};
+		// config.dsn = 'qwerk';
 
 		return config;
 	}

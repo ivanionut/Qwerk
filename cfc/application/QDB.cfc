@@ -13,21 +13,40 @@ component QDB extends="cfc.application.QwerkBase"{
 	/**
 	* @hint "Constructor"
 	* @config "Config passed the database abstraction layer"
+	* @description "This can clear all existing QDB data when called."
 	*/
-	public function init(){
-		var set = applicationConfig();
-		
-		(structKeyExists(set, "dsn")) ? setDatasource(set.dsn) : 0;
+	public function init(boolean clear = false, string tableName){
+		var config = '';
 
-		// return (set) ? true : false;
+		if(arguments.clear eq true){
+			structDelete(this, "dsn");
+			structDelete(this, "selectColumns");
+			structDelete(this, "insertColumns");
+			structDelete(this, "updateColumns");
+			structDelete(this, "deleteColumns");
+			structDelete(this, "table");
+			structDelete(this, "condition");
+			structDelete(this, "result");
+			structDelete(this, "query");
+		}
+
+		// (len(arguments.tableName)) ? this.table = arguments.tableName : false;
+
+		if(len(arguments.tableName)){
+			this.table = arguments.tableName;
+		}
+
+		config = applicationConfig();
+
+		(structKeyExists(config, "dsn")) ? setDatasource(config.dsn) : false;
 	}
 
 	/**
 	* @hint "Sets the datasource for the application"
 	* @datasource "This is the datasource saved in CFIDE"
 	*/
-	public function setDatasource(required datasource){
-		this.dsn = datasource;
+	private function setDatasource(required datasource){
+		this.dsn = arguments.datasource;
 
 		return true;
 	}
@@ -51,7 +70,7 @@ component QDB extends="cfc.application.QwerkBase"{
 	* @hint "This will build the select query"
 	* @whereClause "This is optional in a query"
 	*/
-	public function buildSelect(){
+	private function buildSelect(){
 		var query = '';
 
 		query = "
@@ -68,7 +87,7 @@ component QDB extends="cfc.application.QwerkBase"{
 		return query;
 	}
 	
-	public function setTable(required string tableName){
+	private function setTable(required string tableName){
 		this.table = tableName;
 	}
 
@@ -81,7 +100,7 @@ component QDB extends="cfc.application.QwerkBase"{
 		this.insertColumns.form = arguments.form;
 	}
 
-	public function buildInsert(){
+	private function buildInsert(){
 		var query = '';
 
 		// writeDump(this.insertColumns);
@@ -98,7 +117,7 @@ component QDB extends="cfc.application.QwerkBase"{
 		this.deleteColumns = arguments.deleteColumns;
 	}
 
-	public function buildDelete(){
+	private function buildDelete(){
 		var query = '';
 
 		query = 'DELETE FROM #this.table#
@@ -107,7 +126,7 @@ component QDB extends="cfc.application.QwerkBase"{
 		return query;
 	}
 
-	public function buildUpdate(){
+	private function buildUpdate(){
 		var query = '';
 
 		query = 'UPDATE #this.table#
@@ -125,17 +144,11 @@ component QDB extends="cfc.application.QwerkBase"{
 		var query = '';
 
 		if(structKeyExists(this, "selectColumns")){
-
 			query = buildSelect();
-
 		} else if(structKeyExists(this, "insertColumns")){
-
 			query = buildInsert();
-
 		} else if(structKeyExists(this, "deleteColumns")){
-
 			query = buildDelete();
-			
 		} else if(structKeyExists(this, "updateColumns")){
 			query = buildUpdate();
 		}
