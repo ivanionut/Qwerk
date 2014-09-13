@@ -10,11 +10,14 @@ component registration displayname="Registration" extends="cfc.application.Page"
 		loadFooter();
 
 		if(structKeyExists(form, "registration-form"))
-			getForm();
+			getForm(form);
 	}
 
-	public function getForm(){
+	public function getForm(struct registrationForm){
 		/* Process form with the model */
 		this.model.findd(form);
+		// this.model.removeRecord();
+		// this.model.insertRow(arguments.registrationForm);
+		// this.model.updateRecord();
 	}
 }

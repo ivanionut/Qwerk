@@ -2,38 +2,40 @@
 * @hint "In a real world environment this would be a Users model"
 */
 component registrationModel extends="cfc.application.Model"{
-	property query;
-	property table;
+	this.qdb = request.qwerkfactory.newQDB();
+
+	public function getTableAttributes(){
+		return super.getTableAttributes(tableName());
+	}
 
 	public function findd(required struct regForm){
-		var qdb = request.qwerkfactory.newQDB();
 		var form = regForm;
+		var db = this.qdb;
 
-		qdb.init(applicationConfig());
-		qdb.setTable('qwerk_users');
-		qdb.select('username,password');
-		qdb.where(
+		db.init(true, 'qwerk_users');
+
+		db.select('username,password');
+		db.where(
 			{field="username", value="#form.username#"}
 		);
 		
-		result = qdb.execute().getResult();
+		result = db.execute().getResult();
 
-		if(result.recordcount neq 1){
+		writeDump(getTableAttributes());
+		abort;
+
+		if(result.recordcount eq 1){
 			writeDump(result)
 			abort;
-		}
-
-		if(structKeyExists(url, "column") && structKeyExists(url, "value")){
-			removeRecord();
 		}
 	}
 
 	public function insertRow(required regForm){
-		var qdb = request.qwerkfactory.newQDB();
-		
-		qdb.init(applicationConfig());
-		qdb.setTable('qwerk_users');
-		qdb.insertRow(
+		var db = this.qdb;
+
+		db.init(tableName = 'qwerk_users');
+
+		db.insertRow(
 			{cols="username,password,email", 
 			values="#arguments.regForm.username#, 
 				#arguments.regForm.password#,
@@ -41,19 +43,40 @@ component registrationModel extends="cfc.application.Model"{
 			}
 		);
 
-		qdb.execute();
+		db.execute();
+		writeOutput("completed");
 	}
 
 	public function removeRecord(){
-		var qdb = request.qwerkfactory.newQDB();
-		
-		qdb.init(applicationConfig());
-		qdb.setTable('qwerk_users');
+		var db = this.qdb;		
 
-		qdb.delete(
-			{column="id", value="3"}
+		db.init(true, 'qwerk_users');
+
+		db.delete(
+			{column="id", value="2"}
 		);
 
-		qdb.execute();
+		db.execute();
+		writeOutput("completed");
+	}
+
+	public function updateRecord(){
+		var db = this.qdb;
+
+		db.init(true, 'qwerk_users');
+
+		db.update(
+			{column='password', value="david123", conditionColumn="id", conditionValue="1"}
+		);
+
+		res = db.execute();
+		writeDump(res);
+	}
+
+	/**
+	* @hint "Table for this model"
+	*/
+	public string function tableName(){
+		return 'qwerk_users';
 	}
 }
