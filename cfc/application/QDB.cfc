@@ -9,6 +9,7 @@ component QDB extends="cfc.application.QwerkBase"{
 	property condition;
 	property result;
 	property query;
+	property columnAttr;
 
 	/**
 	* @hint "Constructor"
@@ -29,8 +30,6 @@ component QDB extends="cfc.application.QwerkBase"{
 			structDelete(this, "result");
 			structDelete(this, "query");
 		}
-
-		// (len(arguments.tableName)) ? this.table = arguments.tableName : false;
 
 		if(len(arguments.tableName)){
 			this.table = arguments.tableName;
@@ -151,6 +150,8 @@ component QDB extends="cfc.application.QwerkBase"{
 			query = buildDelete();
 		} else if(structKeyExists(this, "updateColumns")){
 			query = buildUpdate();
+		} else if(structKeyExists(this, "columnAttr")){
+			query = this.columnAttr;
 		}
 		
 		if(len(query)){
@@ -176,5 +177,12 @@ component QDB extends="cfc.application.QwerkBase"{
 	*/
 	public function update(required columns){
 		this.updateColumns = columns;
+	}
+
+	/**
+	* @hint "Gets a table attributes"
+	*/
+	public function getTableAttributes(){
+		this.columnAttr = 'SHOW COLUMNS FROM `#this.table#`';
 	}
 }
