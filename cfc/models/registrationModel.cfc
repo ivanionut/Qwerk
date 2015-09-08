@@ -4,6 +4,7 @@
 component registrationModel extends="cfc.application.Model"{
 	this.qdb = request.qwerkfactory.newQDB();
 
+	// mandatory method for forms
 	public function getTableAttributes(){
 		return super.getTableAttributes(tableName());
 	}
@@ -75,6 +76,7 @@ component registrationModel extends="cfc.application.Model"{
 
 	/**
 	* @hint "Table for this model"
+	* @mandatory "TRUE"
 	*/
 	public string function tableName(){
 		return 'qwerk_users';

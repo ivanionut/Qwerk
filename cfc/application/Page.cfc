@@ -110,9 +110,19 @@ component Page hint="Base Page Controller" extends="QwerkActions" implements="Qw
 		}
 	}
 
+	/**
+	* @hint "Call a view to display 404 Not Found"
+	*/
 	public function show404(){
 		// call the 404 controller
 		var controller = createObject("component", "404").view();
 		return true;
+	}
+
+	/**
+	* @hint "Returns a new form controller object"
+	*/
+	public function FormController(){
+		return createObject('component', 'FormController');
 	}
 }

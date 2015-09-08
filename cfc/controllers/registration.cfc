@@ -7,6 +7,7 @@ component registration displayname="Registration" extends="cfc.application.Page"
 
 		loadHeader('Registration');
 		load('registration');
+		load('registration', '_form');
 		loadFooter();
 
 		if(structKeyExists(form, "registration-form"))
